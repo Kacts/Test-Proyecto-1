@@ -34,7 +34,7 @@ import modelo.VentaCafe;
 import modelo.VentaJuegos;
 
 public class FilePersistence {
-    private static final String BASE_FOLDER = "board-game-cafe-data";
+    private static final String BASE_FOLDER = "data";
     private static final String USERS_FILE = "usuarios.txt";
     private static final String GAMES_FILE = "juegos.txt";
     private static final String SALES_FILE = "ventas.txt";
@@ -47,8 +47,7 @@ public class FilePersistence {
     private final Path dataFolder;
 
     public FilePersistence() {
-        String userHome = System.getProperty("user.home");
-        this.dataFolder = Paths.get(userHome, BASE_FOLDER);
+        this.dataFolder = Paths.get(System.getProperty("user.dir"), BASE_FOLDER);
     }
 
     public AppData load() {
