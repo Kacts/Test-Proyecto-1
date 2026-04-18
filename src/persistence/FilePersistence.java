@@ -120,7 +120,7 @@ public class FilePersistence {
                     usuarios.add(new Administrador(p[1], p[2], p[3]));
                 } else if ("CLIENTE".equals(role)) {
                     Cliente cliente = new Cliente(p[1], p[2], p[3], p[4]);
-                    cliente.setPuntosDeFidelidad(Double.parseDouble(p[5]));
+                    cliente.setPuntosDeFidelidad((int) Double.parseDouble(p[5]));
                     usuarios.add(cliente);
                 } else if ("MESERO".equals(role)) {
                     usuarios.add(new Mesero(p[1], p[2], p[3], p[4], p[5]));
@@ -129,7 +129,7 @@ public class FilePersistence {
                 } else if ("BASICO".equals(role)) {
                     UsuarioBasico basico = new UsuarioBasico(p[1], p[2], p[3]);
                     if (p.length > 4 && !p[4].isBlank()) {
-                        basico.setPuntosDeFidelidad(Double.parseDouble(p[4]));
+                        basico.setPuntosDeFidelidad((int) Double.parseDouble(p[4]));
                     }
                     usuarios.add(basico);
                 }

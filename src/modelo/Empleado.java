@@ -38,4 +38,10 @@ public abstract class Empleado extends Usuario {
     public String getNombre() {
         return nombre;
     }
+
+    public void devolverJuego(Prestamo prestamo) {
+        if (prestamo != null && prestamo.estaActivo()) {
+            prestamo.registrarDevolucion();
+        }
+    }
 }

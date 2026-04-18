@@ -138,9 +138,12 @@ System.out.println("\n=== MENU PRINCIPAL ===");
             System.out.println("  4) Comprar cafe");
             System.out.println("  5) Usar 1000 puntos en cafe");
             System.out.println("  6) Usar 4000 puntos en juego");
+            System.out.println("Devoluciones:");
+            System.out.println("  7) Devolver juego prestado");
             System.out.println("Cuenta:");
-            System.out.println("  7) Ver puntos de fidelidad");
-            System.out.println("  8) Cerrar sesion");
+            System.out.println("  8) Ver puntos de fidelidad");
+            System.out.println("  9) Menu de puntos");
+            System.out.println("  10) Cerrar sesion");
             System.out.print("Opcion: ");
             int opcion = leerEntero();
 
@@ -151,8 +154,10 @@ System.out.println("\n=== MENU PRINCIPAL ===");
                 case 4 -> flujoCompraCafe(sistema, cliente);
                 case 5 -> flujoUsarPuntosCafe(sistema, cliente);
                 case 6 -> flujoUsarPuntosJuego(sistema, cliente);
-                case 7 -> System.out.println("Puntos actuales: " + cliente.getPuntosDeFidelidad());
-                case 8 -> volver = true;
+                case 7 -> flujoDevolverPrestamo(sistema, cliente);
+                case 8 -> System.out.println("Puntos actuales: " + cliente.getPuntosDeFidelidad());
+                case 9 -> menuPuntos(sistema, cliente);
+                case 10 -> volver = true;
                 default -> System.out.println("Opcion invalida.");
             }
         }
@@ -169,8 +174,9 @@ System.out.println("\n=== MENU PRINCIPAL ===");
             System.out.println("  3) Comprar cafe (20% descuento)");
             System.out.println("Servicio:");
             System.out.println("  4) Pedir prestamo de juego");
-            System.out.println("  5) Solicitar cambio de turno");
-            System.out.println("  6) Cerrar sesion");
+            System.out.println("  5) Devolver juego prestado");
+            System.out.println("  6) Solicitar cambio de turno");
+            System.out.println("  7) Cerrar sesion");
             System.out.print("Opcion: ");
             int opcion = leerEntero();
 
@@ -179,8 +185,9 @@ System.out.println("\n=== MENU PRINCIPAL ===");
                 case 2 -> flujoCompraJuego(sistema, empleado);
                 case 3 -> flujoCompraCafe(sistema, empleado);
                 case 4 -> flujoPrestamoEmpleado(sistema, emp);
-                case 5 -> flujoSolicitudTurno(sistema, emp);
-                case 6 -> volver = true;
+                case 5 -> flujoDevolverPrestamo(sistema, empleado);
+                case 6 -> flujoSolicitudTurno(sistema, emp);
+                case 7 -> volver = true;
                 default -> System.out.println("Opcion invalida.");
             }
         }
@@ -215,6 +222,28 @@ System.out.println("\n=== MENU PRINCIPAL ===");
                 case 7 -> flujoAprobarSolicitudTurno(sistema);
                 case 8 -> flujoReporteVentas(sistema);
                 case 9 -> volver = true;
+                default -> System.out.println("Opcion invalida.");
+            }
+        }
+    }
+
+    private static void menuPuntos(SistemaCafe sistema, Cliente cliente) {
+        boolean volver = false;
+        while (!volver) {
+            System.out.println("\n=== Menu de Puntos ===");
+            System.out.println("Puntos actuales: " + cliente.getPuntosDeFidelidad());
+            System.out.println("1) Canjar 1000 puntos en cafe");
+            System.out.println("2) Canjar 4000 puntos en juego");
+            System.out.println("3) Ver saldo de puntos");
+            System.out.println("4) Volver");
+            System.out.print("Opcion: ");
+            int opcion = leerEntero();
+
+            switch (opcion) {
+                case 1 -> flujoUsarPuntosCafe(sistema, cliente);
+                case 2 -> flujoUsarPuntosJuego(sistema, cliente);
+                case 3 -> System.out.println("Saldo de puntos: " + cliente.getPuntosDeFidelidad());
+                case 4 -> volver = true;
                 default -> System.out.println("Opcion invalida.");
             }
         }
@@ -446,15 +475,19 @@ System.out.println("\n=== MENU PRINCIPAL ===");
     }
 
     private static void flujoPrestamoEmpleado(SistemaCafe sistema, Empleado empleado) {
+        System.out.print("Hay clientes por atender? (s/n): ");
+        boolean hayClientes = leerBoolean();
+        if (hayClientes) {
+            System.out.println("No puedes pedir prestamo si hay clientes por atender. Atiende a los clientes primero.");
+            return;
+        }
         System.out.print("ID juego: ");
         String idJuego = SCANNER.nextLine().trim();
         JuegoDeMesa juego = sistema.buscarJuegoPorId(idJuego);
         if (juego != null) {
             System.out.println("Copias disponibles para prestamo: " + sistema.getDisponibilidadPrestamo(juego));
         }
-        System.out.print("Hay clientes por atender? (s/n): ");
-        boolean hayClientes = leerBoolean();
-        System.out.println(sistema.prestarJuegoAEmpleado(empleado, idJuego, hayClientes));
+        System.out.println(sistema.prestarJuegoAEmpleado(empleado, idJuego, false));
     }
 
     private static void flujoSolicitudTurno(SistemaCafe sistema, Empleado empleado) {
