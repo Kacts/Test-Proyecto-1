@@ -528,13 +528,39 @@ System.out.println("\n=== MENU PRINCIPAL ===");
 
     private static void flujoReporteVentas(SistemaCafe sistema) {
         var reporte = sistema.generarReporteSimple();
-        System.out.println("Diario: " + reporte.generarDiario());
-        System.out.println("Semanal: " + reporte.generarSemanal());
-        System.out.println("Mensual: " + reporte.generarMensual());
-        System.out.println("Detalle JUEGO (subtotal/impuestos/propinas/total): "
-                + sistema.resumenFinancieroPorRubro(RubroVenta.JUEGO));
-        System.out.println("Detalle CAFE (subtotal/impuestos/propinas/total): "
-                + sistema.resumenFinancieroPorRubro(RubroVenta.CAFE));
+        
+        System.out.println("\n╔════════════════════════════════════════════════════════╗");
+        System.out.println("║         REPORTE DE VENTAS - BOARDGAMECAFE            ║");
+        System.out.println("╚════════════════════════════════════════════════════════╝\n");
+        
+        System.out.println("\nREPORTE DIARIO:");
+        reporte.generarDiario().forEach((fecha, total) -> 
+            System.out.println("   " + fecha + " -> $" + String.format("%,.0f", total))
+        );
+        
+        System.out.println("\nREPORTE SEMANAL:");
+        reporte.generarSemanal().forEach((semana, total) -> 
+            System.out.println("   Semana " + semana + " -> $" + String.format("%,.0f", total))
+        );
+        
+        System.out.println("\nREPORTE MENSUAL:");
+        reporte.generarMensual().forEach((mes, total) -> 
+            System.out.println("   Mes " + mes + " -> $" + String.format("%,.0f", total))
+        );
+        
+        System.out.println("\nDETALLE JUEGOS:");
+        var juegoDetalle = sistema.resumenFinancieroPorRubro(RubroVenta.JUEGO);
+        juegoDetalle.forEach((key, value) -> 
+            System.out.println("   " + key + ": $" + String.format("%,.0f", (Double)value))
+        );
+        
+        System.out.println("\nDETALLE CAFE:");
+        var cafeDetalle = sistema.resumenFinancieroPorRubro(RubroVenta.CAFE);
+        cafeDetalle.forEach((key, value) -> 
+            System.out.println("   " + key + ": $" + String.format("%,.0f", (Double)value))
+        );
+        
+        System.out.println("\n" + "═".repeat(60) + "\n");
     }
 
     private static int leerEntero() {

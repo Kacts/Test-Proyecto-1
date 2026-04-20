@@ -12,6 +12,7 @@ public class Reserva {
     private EstadoReserva estado;
     private boolean bebidasCalientesActivas;
     private List<JuegoDeMesa> juegosPrestados;
+    private Mesa mesa;
 
     public Reserva(int cantidadPersonas, boolean hayNinos, boolean hayJovenes) {
         this.fecha = LocalDateTime.now();
@@ -59,5 +60,26 @@ public class Reserva {
 
     public boolean hayMenores() {
         return hayNinos || hayJovenes;
+    }
+
+    // Nuevos métodos para integración con Mesa
+    public Mesa getMesa() {
+        return mesa;
+    }
+
+    public void setMesa(Mesa mesa) {
+        this.mesa = mesa;
+    }
+
+    public int getCantidadPersonas() {
+        return cantidadPersonas;
+    }
+
+    public EstadoReserva getEstado() {
+        return estado;
+    }
+
+    public LocalDateTime getFecha() {
+        return fecha;
     }
 }

@@ -38,6 +38,10 @@ public abstract class Venta {
         return fecha;
     }
 
+    public void setFecha(LocalDateTime fecha) {
+        this.fecha = fecha;
+    }
+
     public RubroVenta getRubro() {
         return rubro;
     }

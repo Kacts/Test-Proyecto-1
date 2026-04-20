@@ -183,22 +183,31 @@ public class FilePersistence {
         }
         try {
             List<String> lines = Files.readAllLines(path, StandardCharsets.UTF_8);
+            int contador = 0;
             for (String line : lines) {
                 if (line.isBlank()) {
                     continue;
                 }
                 String[] p = line.split(";", -1);
                 Usuario usuarioVenta = p.length > 4 && !p[4].isBlank() ? usuariosMap.get(p[4]) : null;
+                
+                // Variar las fechas: cada venta obtiene una fecha diferente (entre 5 y 1 dias atras)
+                long diasAtras = (contador % 5) + 1;
+                java.time.LocalDateTime fecha = java.time.LocalDateTime.now().minusDays(diasAtras);
+                
                 if ("JUEGO".equals(p[0])) {
                     VentaJuegos venta = new VentaJuegos(p[1], Double.parseDouble(p[2]), usuarioVenta);
                     venta.aplicarDescuento(Double.parseDouble(p[3]));
                     venta.calcularTotal();
+                    venta.setFecha(fecha);
                     ventas.add(venta);
                 } else if ("CAFE".equals(p[0])) {
                     VentaCafe venta = new VentaCafe(p[1], Double.parseDouble(p[2]), Double.parseDouble(p[3]), usuarioVenta);
                     venta.calcularTotal();
+                    venta.setFecha(fecha);
                     ventas.add(venta);
                 }
+                contador++;
             }
         } catch (IOException e) {
             throw new RuntimeException("No se pudieron cargar ventas", e);

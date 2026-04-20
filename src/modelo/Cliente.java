@@ -64,4 +64,19 @@ public class Cliente extends Usuario {
     public String getCodigoDeDescuento() {
         return codigoDeDescuento;
     }
+
+    // Nuevos métodos para acceso simplificado
+    public int holaPuntosActuales() {
+        return this.puntosDeFidelidad;
+    }
+
+    public void canjeaPuntos(int cantidad) {
+        if (this.puntosDeFidelidad >= cantidad) {
+            this.puntosDeFidelidad -= cantidad;
+        }
+    }
+
+    public void acumulaPuntos(int cantidad) {
+        this.puntosDeFidelidad += cantidad;
+    }
 }

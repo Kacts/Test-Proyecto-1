@@ -118,9 +118,16 @@ public class SistemaCafe {
         if (usuarios.isEmpty()) {
             usuarios.add(new Administrador("admin", "admin123", "A-01"));
             usuarios.add(new Cliente("cliente1", "cliente123", "C-01", "CLI10"));
-            Mesero mesero = new Mesero("mesero1", "mesero123", "M-01", "Luis", "EMP20");
-            usuarios.add(mesero);
+            
+            // Meseros
+            usuarios.add(new Mesero("mesero1", "mesero123", "M-01", "Luis", "EMP20"));
+            usuarios.add(new Mesero("mesero2", "mesero123", "M-02", "Carlos", "EMP20"));
+            usuarios.add(new Mesero("mesero3", "mesero123", "M-03", "María", "EMP20"));
+            usuarios.add(new Mesero("mesero4", "mesero123", "M-04", "Laura", "EMP20"));
+            
+            // Cocineros
             usuarios.add(new Cocinero("cocinero1", "cocinero123", "K-01", "Ana", "EMP20"));
+            usuarios.add(new Cocinero("cocinero2", "cocinero123", "K-02", "Pedro", "EMP20"));
         }
         
         // Asignar precios a juegos existentes (por nombre)
